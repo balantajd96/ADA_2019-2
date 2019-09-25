@@ -52,7 +52,50 @@ def solve2(string, index):
 	print(ans)
 
 
+def solve3(string, index):
+	ans=string[0]
+	n=len(string)	#tree high
+	ranges=(1,math.factorial(n))
+	h=1
 
+	while h!=n-1:
+		#print(ranges)
+		div=(ranges[0]+ranges[1])//(h+1)
+		i=0; ok=True; lo=ranges[0] #ok: path founded
+		
+		tmp=[]
+		for i in range(h+1):
+			tmp.append((lo,lo+div-1))
+			lo+=div
+		#print(ranges)
+		#print(h,tmp)
+
+		for i in range(len(tmp)):
+			lo=tmp[i][0]; hi=tmp[i][1]
+			if lo<=index<=hi:
+				ranges=(lo,hi)
+				ans=ans[:i]+string[h]+ans[i:]
+				break
+		print(div, ranges)
+			
+
+		
+		"""
+		while i!=h+1 and ok:	#number of paths
+			#print("------------>",index)
+			if lo<=index<=lo+div-1:
+				print("Entre", lo, lo+div-1)
+				ranges=(lo,lo+div-1); ok=False
+				ans=ans[:i]+string[h]+ans[i:]
+			else:
+				lo+=div
+			i+=1
+		"""
+		h+=1
+		
+	#print("-->",ans,h,string[h])
+	ans=ans[:index-ranges[0]]+string[h]+ans[index-ranges[0]:]
+	print(ans)
 
 
 """
@@ -61,7 +104,8 @@ i=2
 c="X"
 print(string_insert(test,i,c))
 """
-test="ACBF"
-for i in range(24):solve2(test,i+1)
+test="ABCF"
+#for i in range(6):solve3(test,i+1)
+print(solve3(test, 22))	#BCEADF
 #i=4
 #solve(test,i)
