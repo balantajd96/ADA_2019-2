@@ -1,6 +1,6 @@
 from sys import stdin
 
-
+#help https://amrfeldfrawy.wordpress.com/2013/07/11/uva-10063-knuths-permutation/
 def solve(string, index, word):
 	if index==len(word):
 		print(string)
