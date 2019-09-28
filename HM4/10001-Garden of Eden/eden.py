@@ -33,8 +33,12 @@ def main():
         num=list(map(str, stdin.readline().split()))
 main()
 """
-verify=[]
+
 def paths(string, goal, index, mask):
+    """
+    compute the possible paths acording to mask
+    and index
+    """
     tmp=""
     paths=[]; i=0
     #print("--------")
@@ -47,14 +51,47 @@ def paths(string, goal, index, mask):
 
 def is_correct(string, path, index):
     """
+    verify if the path selected is correct
     path: 3-bits string
     index: index to place path
     """
     ans=True
+    print(string)
+    print(path, index)
+
+    cnt=-1
+    for i in range(3):
+        if string[index+cnt]=="2":
+            string[index+cnt]=path[i]
+        else:
+            if string[index+cnt]!=path[i]:
+                ans=False
+        cnt+=1
+    """
     if index==0:
+        if string[-1]!="2":
+            if string[-1]!=path[0]:
+                ans=False
+        else:
+            string[-1]=path[0]
+        
+        if string[0]!="2":
+            if string[0]!=path[1]:
+                ans=False
+        else:
+            string[0]=path[1]
+
+        if string[1]!="2":
+            if string[1]!=path[2]:
+                ans=False
+        else:
+            string[1]=path[2]
+
+        
         string[-1]=path[0]
         string[0]=path[1]
         string[1]=path[2]
+        
     elif 1<=index<=len(string)-2:
         if string[index-1]==path[0] and string[index]==path[1]:
             string[index+1]=path[1]
@@ -65,9 +102,11 @@ def is_correct(string, path, index):
            pass
         else:
             ans=False 
+    """
+    print(ans)
+    print(string)
     return ans
 def solve(goal, string, len_string, mask, index):
-    global verify
     ans=None
     if index==len(string):
         ans=True
@@ -83,21 +122,26 @@ def solve(goal, string, len_string, mask, index):
             for i in range(len(_paths)):
                 tmp=string
                 if is_correct(string, _paths[i], index):
-                    solve(goal, string, len_string, mask, index+1)
+                    print("------------------------------------------------correcto")
+                    ans=solve(goal, string, len_string, mask, index+1)
                 else:
-                    ans=False; break
+                    print("------------------------------------------------malo")
+                    string=tmp
     return ans
 
 def main():
-    goal="10101"
-    len_string=len(goal)
-    string=""
-    mask="{:08b}".format(204)
-    for i in range(len_string): string+="2"
-
-    tmp=solve(goal, list(string), len_string, mask, 0)
-    if tmp==True:print("GARDEN OF EDEN")
-    else:print("REACHABLE")
-
-
+    ok=True
+    while ok:
+            tmp=stdin.readline().split()
+            if tmp!=[]:
+                mask,len_string,goal=tmp[0],tmp[1],tmp[2]
+                mask="{:08b}".format(int(mask))
+                len_string=int(len_string)
+                string=""
+                for i in range(len_string): string+="2"
+                answer=solve(goal, list(string), len_string, mask, 0)
+                if answer:print("GARDEN OF EDEN")
+                else:print("REACHABLE")
+            else:
+                ok=False    
 main()
