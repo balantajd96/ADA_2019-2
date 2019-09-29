@@ -1,6 +1,7 @@
 from sys import stdin
 
-#help https://amrfeldfrawy.wordpress.com/2013/07/11/uva-10063-knuths-permutation/
+#help from:
+#	 https://amrfeldfrawy.wordpress.com/2013/07/11/uva-10063-knuths-permutation/
 def solve(string, index, word):
 	if index==len(word):
 		print(string)
@@ -13,12 +14,15 @@ def solve(string, index, word):
 
 
 def main():
-	ok=True
+	ok=True; cnt=1
 	while ok:
 		word=stdin.readline().split()
 		if word==[]:
 			ok=False
 		else:
+			if cnt==2:
+				print("")
 			solve(word[0][0], 1, word[0])
-			print("")
+			cnt=2
+			
 main()
