@@ -7,17 +7,20 @@ answer=None
 #    David Hernández, Nicolás Ortiz, Edixon Arias
 def solve(string, len_string, goal, mask, index):
     global paths, answer
-    if index==len_string:
+    if index==len_string:   
+        #Verify if last insertion is correct
         if string[0]==string[len_string] and string[1]==string[len_string+1]: answer=True
         return
     else:
         for i in range(8):
             if not mask[i]!=goal[index]:
-                if index!=0:
+                if index!=0:    
+                    #Check if new bits can be inserted without damaging the previous ones
                     if string[index]==paths[i][0] and string[index+1]==paths[i][1]:
                         string[index+2]=paths[i][2]
                         solve(string, len_string, goal, mask, index+1)                    
-                else:
+                else:   
+                    #First iteration, can insert without problems
                     string[0]=paths[i][0]; string[1]=paths[i][1]; string[2]=paths[i][2]
                     solve(string, len_string, goal, mask, index+1)
                     
